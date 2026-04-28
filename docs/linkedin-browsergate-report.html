@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrowserGate: The LinkedIn Surveillance Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-blue-hover: #0077ed;
+            --dark-text: #1d1d1f;
+            --secondary-text: #86868b;
+            --light-bg: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --warning: #ff3b30;
+            --success: #34c759;
+            --card-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --section-spacing: 160px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
+            color: var(--dark-text);
+            background: var(--white);
+            line-height: 1.47059;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.022em;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(251, 251, 253, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 22px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav .logo {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark-text);
+            opacity: 0.8;
+        }
+
+        nav .date {
+            font-size: 12px;
+            color: var(--secondary-text);
+            font-weight: 400;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--light-bg) 0%, var(--white) 100%);
+        }
+
+        .hero-title {
+            font-size: 80px;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 16px;
+            letter-spacing: -0.003em;
+            background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--secondary-text);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--dark-text);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 98px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 40px;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 22px;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: var(--section-spacing) 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--apple-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.07;
+            letter-spacing: -0.005em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-intro {
+            font-size: 21px;
+            font-weight: 400;
+            color: var(--secondary-text);
+            line-height: 1.5;
+            max-width: 800px;
+        }
+
+        /* Grid and Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.021em;
+        }
+
+        .card-text {
+            font-size: 17px;
+            color: var(--secondary-text);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .card-highlight {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .card-sub {
+            font-size: 14px;
+            color: var(--secondary-text);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin-top: 48px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 32px;
+            padding: 32px 0;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--apple-blue);
+            border-radius: 50%;
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--apple-blue);
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-text {
+            font-size: 17px;
+            color: var(--secondary-text);
+            line-height: 1.5;
+        }
+
+        /* Blockquote */
+        .quote-block {
+            background: var(--light-bg);
+            border-radius: 20px;
+            padding: 48px;
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .quote-block::before {
+            content: '"';
+            font-size: 128px;
+            font-weight: 700;
+            color: var(--border);
+            line-height: 1;
+            position: absolute;
+            top: -20px;
+            left: 24px;
+            font-family: Georgia, serif;
+        }
+
+        .quote-text {
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--dark-text);
+            padding-left: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-source {
+            font-size: 17px;
+            color: var(--secondary-text);
+            margin-top: 24px;
+            padding-left: 16px;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 32px 24px;
+            background: var(--light-bg);
+            border-radius: 20px;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--secondary-text);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border: 1px solid #ffcfcf;
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin: 40px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .warning-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--warning);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .warning-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .warning-content p {
+            font-size: 15px;
+            color: var(--secondary-text);
+            line-height: 1.5;
+        }
+
+        /* List Styling */
+        .feature-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+            font-size: 17px;
+            border-bottom: 1px solid var(--light-bg);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Links */
+        a {
+            color: var(--apple-blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title {
+                font-size: 48px;
+            }
+            
+            .hero-subtitle {
+                font-size: 21px;
+            }
+            
+            .section-title {
+                font-size: 40px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quote-text {
+                font-size: 21px;
+            }
+            
+            .section {
+                padding: 100px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--light-bg);
+            padding: 60px 0;
+            text-align: center;
+            color: var(--secondary-text);
+            font-size: 12px;
+        }
+
+        footer .container {
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--secondary-text);
+            font-size: 12px;
+        }
+
+        /* Status indicators */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 98px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.active {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .status-dot.pending {
+            background: #ff9500;
+        }
+
+        .status-dot.closed {
+            background: var(--secondary-text);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">BrowserGate Report</div>
+            <div class="date">April 23, 2026</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Investigation</div>
+            <h1 class="hero-title">BrowserGate</h1>
+            <p class="hero-subtitle">LinkedIn's secret surveillance of 6,000+ browser extensions revealed — sparking lawsuits and privacy concerns</p>
+        </div>
+    </section>
+
+    <!-- Section 1: What's The News -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">01 — The Discovery</p>
+                <h2 class="section-title">What's The News</h2>
+                <p class="section-intro">In April 2026, a bombshell investigation titled "BrowserGate" revealed that LinkedIn — the Microsoft-owned professional networking platform with over 1 billion users — has been secretly scanning visitors' browsers for over 6,000 Chrome extensions without consent or disclosure.</p>
+            </div>
+
+            <!-- Key Statistics -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">6,222</div>
+                    <div class="stat-label">Extensions Scanned</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">48</div>
+                    <div class="stat-label">Data Points Collected</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1B+</div>
+                    <div class="stat-label">Affected Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Active Lawsuits</div>
+                </div>
+            </div>
+
+            <div class="warning-banner">
+                <div class="warning-icon">!</div>
+                <div class="warning-content">
+                    <h4>Active as of April 2026</h4>
+                    <p>Independent verification by BleepingComputer confirmed the scanning script "Spectroscopy" remains active on every LinkedIn page load in Chrome-based browsers.</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3 class="card-title">The Spectroscopy Script</h3>
+                    <p class="card-text">A hidden 2.7MB JavaScript routine that fires up to 6,222 simultaneous requests to detect installed browser extensions by attempting to access extension-specific files.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Device Fingerprinting</h3>
+                    <p class="card-text">Collects 48 hardware and software characteristics including CPU cores, memory, screen resolution, timezone, battery status, and audio hardware information.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <h3 class="card-title">Encrypted Transmission</h3>
+                    <p class="card-text">Data is serialized to JSON, encrypted using RSA public key, and transmitted to LinkedIn telemetry endpoints. It's then permanently embedded as an HTTP header in every subsequent API request during your session.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Rapid Expansion</h3>
+                    <p class="card-text">The extension list grew from 38 in 2017 to 461 in 2024, then surged to 6,167 by February 2026 — a 1,252% increase in just two years.</p>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <p class="quote-text">The presence or absence of a file in the response indicates whether the extension is installed. The entire operation runs silently in the background, without a visible prompt or notification of any kind.</p>
+                <p class="quote-source">— BrowserGate Report findings, April 2026</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: What Does It Mean -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">02 — Deeper Analysis</p>
+                <h2 class="section-title">What Does It Mean</h2>
+                <p class="section-intro">Beyond the technical mechanics lies a troubling reality: LinkedIn's scanning operation represents one of the most extensive browser surveillance systems ever deployed outside of state-level monitoring — and it targets categories of data that fall under "special category" protections under GDPR.</p>
+            </div>
+
+            <!-- What They're Looking For -->
+            <div class="card card-full">
+                <h3 class="card-title">The Inventory of Interest</h3>
+                <p class="card-text">LinkedIn doesn't just scan for "bad" extensions — the probe casts an extraordinarily wide net including competitive intelligence targets and extensions that may reveal deeply personal information.</p>
+                
+                <div class="grid" style="margin-top: 32px;">
+                    <div>
+                        <h4 style="font-size: 17px; font-weight: 600; margin-bottom: 16px; color: var(--apple-blue);">Competitor Intelligence (200+ products)</h4>
+                        <ul class="feature-list">
+                            <li>Salesforce extensions</li>
+                            <li>HubSpot integrations</li>
+                            <li>Pipedrive tools</li>
+                            <li>Apollo contact finders</li>
+                            <li>Lusha data enrichment</li>
+                            <li>ZoomInfo plugins</li>
+                        </ul>
+                        <p style="font-size: 15px; color: var(--secondary-text); margin-top: 16px;">Strategic implication: Combined with employment data, LinkedIn can identify which companies are evaluating competing sales tools.</p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 17px; font-weight: 600; margin-bottom: 16px; color: var(--warning);">Sensitive Personal Data</h4>
+                        <ul class="feature-list">
+                            <li>Islamic content filters (religious beliefs)</li>
+                            <li>Anti-Zionist political taggers (political opinions)</li>
+                            <li>Neurodivergent user aids (health conditions)</li>
+                            <li>Job-search extensions (employment intentions)</li>
+                        </ul>
+                        <p style="font-size: 15px; color: var(--secondary-text); margin-top: 16px;">Under GDPR Article 9, processing data revealing religious beliefs, political opinions, or health conditions requires explicit consent.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Legal Implications -->
+            <h3 style="font-size: 32px; font-weight: 700; margin: 80px 0 32px;">Legal and Privacy Implications</h3>
+            
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3 class="card-title">GDPR Special Categories</h3>
+                    <p class="card-text">The browser scanning potentially collects "special category" personal data — the most protected class under EU privacy law. This includes inferences about religious beliefs, political opinions, and physical/mental health conditions.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📋</div>
+                    <h3 class="card-title">Transparency Failure</h3>
+                    <p class="card-text">No user-facing setting prevents the scanning. No opt-out mechanism exists. The practice is not disclosed in LinkedIn's privacy policy, rendering any implied consent questionable under GDPR's requirement for "freely given" consent.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <h3 class="card-title">Persistent Tracking</h3>
+                    <p class="card-text">Device fingerprints persist across cookie clears and potentially across devices, creating a surveillance mechanism that follows users even when they attempt to "start fresh." The encrypted data is attached to every API request during your session.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h3 class="card-title">Third-Party Sharing</h3>
+                    <p class="card-text">Fairlinked alleges scanned data transmits to Human Security (cybersecurity firm) via hidden iframe and to Google via reCAPTCHA integration — data flows not explicitly disclosed in LinkedIn's policies.</p>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <p class="quote-text">Knowing that a user is running a job-search extension, for instance, is a meaningful inference about their employment intentions, drawn without consent.</p>
+                <p class="quote-source">— Privacy analysis from the BrowserGate report</p>
+            </div>
+
+            <!-- The Scale Issue -->
+            <div class="card card-full" style="margin-top: 60px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+                    <div>
+                        <h3 class="card-title">Scale Matters</h3>
+                        <p class="card-text">The 1,252% increase in scanned extensions over two years raises questions about proportionality. If the purpose is solely anti-abuse and security, why has the scope expanded to include thousands of benign extensions?</p>
+                        <p class="card-text" style="margin-top: 16px;">LinkedIn processes this data at massive scale: 1 billion users × 6,222 extension checks = potentially trillions of probes conducted annually.</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="card-highlight">1,252%</div>
+                        <div class="card-sub">Growth in 2 years<br>38 (2017) → 6,167 (2026)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Current State -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">03 — Right Now</p>
+                <h2 class="section-title">Current State</h2>
+                <p class="section-intro">The BrowserGate revelation has triggered two federal class action lawsuits, intensified regulatory scrutiny, and ongoing debate about LinkedIn's defense that the scanning is solely for anti-abuse purposes.</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">October 2024</div>
+                        <div class="timeline-title">Previous GDPR Violation</div>
+                        <div class="timeline-text">Irish Data Protection Commission fines LinkedIn €310 million ($334 million) for processing personal data for targeted advertising without valid legal basis. The commission found consent was not "freely given" under GDPR art. 5 and 6.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">April 2026</div>
+                        <div class="timeline-title">BrowserGate Report Published</div>
+                        <div class="timeline-text">Fairlinked e.V. publishes detailed technical analysis revealing LinkedIn's "Spectroscopy" script. The report is independently verified by BleepingComputer and cybersecurity researchers.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">April 2026</div>
+                        <div class="timeline-title">LinkedIn Official Response</div>
+                        <div class="timeline-text">LinkedIn admits to scanning for extensions but frames it as security enforcement: "To protect the privacy of our members, their data, and to ensure site stability, we do look for extensions that scrape data without members' consent." Denies using data to infer sensitive information.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">April 2026</div>
+                        <div class="timeline-title">Two Class Action Lawsuits Filed</div>
+                        <div class="timeline-text">Plaintiffs Nicholas Farrell and Jeff Ganan file separate class actions in California federal court. Allegations include invasion of privacy under California Constitution, violations of the California Comprehensive Computer Data Access and Fraud Act, and federal Electronic Communications Privacy Act violations.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">April 2026 — Present</div>
+                        <div class="timeline-title">Scanning Continues</div>
+                        <div class="timeline-text">As of early April 2026, security researchers confirm the Spectroscopy script remains active on every LinkedIn page visit. No opt-out mechanism exists. The practice continues while litigation progresses.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Status Cards -->
+            <h3 style="font-size: 32px; font-weight: 700; margin: 80px 0 32px;">Active Legal Proceedings</h3>
+            
+            <div class="grid">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 class="card-title" style="margin: 0;">Farrell v. LinkedIn</h3>
+                        <span class="status-pill"><span class="status-dot active"></span> Active</span>
+                    </div>
+                    <p class="card-text"><strong>Filed:</strong> April 2026, Northern District of California</p>
+                    <p class="card-text"><strong>Class:</strong> All LinkedIn users in the US</p>
+                    <p class="card-text"><strong>Claims:</strong> California Constitution invasion of privacy; California Comprehensive Computer Data Access and Fraud Act</p>
+                    <p class="card-text" style="margin-top: 16px; font-style: italic;">"Plaintiff and Class members had an objectively reasonable expectation of privacy because Defendant does not disclose in its Privacy Policy that it tracks users' browser extensions."</p>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 class="card-title" style="margin: 0;">Ganan v. LinkedIn</h3>
+                        <span class="status-pill"><span class="status-dot active"></span> Active</span>
+                    </div>
+                    <p class="card-text"><strong>Filed:</strong> April 2026, Northern District of California</p>
+                    <p class="card-text"><strong>Class:</strong> All LinkedIn users in the US</p>
+                    <p class="card-text"><strong>Claims:</strong> Above + Federal Electronic Communications Privacy Act</p>
+                    <p class="card-text" style="margin-top: 16px; font-style: italic;">"LinkedIn crossed the line by using anti-abuse justifications as cover for massive covert browser surveillance on a global scale."</p>
+                </div>
+            </div>
+
+            <!-- The Defense and Source -->
+            <div class="card card-full" style="margin-top: 48px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+                    <div>
+                        <h3 class="card-title">LinkedIn's Defense</h3>
+                        <p class="card-text">LinkedIn positions the scanning as essential security infrastructure:</p>
+                        <ul class="feature-list">
+                            <li>Detects extensions violating Terms of Service</li>
+                            <li>Defends against unauthorized data scraping</li>
+                            <li>Ensures site stability for 1 billion users</li>
+                            <li>Identifies extensions injecting static resources</li>
+                        </ul>
+                        <p class="card-text" style="margin-top: 16px; font-size: 15px; color: var(--secondary-text);">LinkedIn VP Sarah Wright called the report "a house of cards built entirely upon a fabrication" by Teamfluence after losing a Munich injunction case in January 2026.</p>
+                    </div>
+                    <div>
+                        <h3 class="card-title">Report Origins</h3>
+                        <p class="card-text">The BrowserGate report was published by <strong>Fairlinked e.V.</strong>, a German trade association for commercial LinkedIn users with apparent ties to <strong>Teamfluence Signal Systems OÜ</strong> (Estonia).</p>
+                        <p class="card-text" style="margin-top: 8px;">Teamfluence makes a Chrome extension that was restricted by LinkedIn for alleged TOS violations. They filed a preliminary injunction against LinkedIn in Munich — denied January 2026 — alleging Digital Markets Act and GDPR violations.</p>
+                        <p style="margin-top: 16px; padding: 12px 16px; background: var(--light-bg); border-radius: 8px; font-size: 14px; color: var(--secondary-text);">Important note: While financial disputes exist, the <strong>technical findings were independently verified</strong> by BleepingComputer and other security researchers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Protection -->
+            <div class="warning-banner" style="margin-top: 60px;">
+                <div class="warning-icon" style="background: #ff9500;">!</div>
+                <div class="warning-content">
+                    <h4>User Protection Status</h4>
+                    <p><strong>No opt-out available.</strong> The scanning occurs on every page visit and there is currently no user-facing setting to disable it. Mitigation options are limited: using non-Chromium browsers (Firefox) may limit but not eliminate fingerprinting capabilities. The most effective protection currently is browser-level script blocking or avoiding LinkedIn entirely.</p>
+                </div>
+            </div>
+
+            <!-- Bottom Quote -->
+            <div class="quote-block" style="margin-top: 60px;">
+                <p class="quote-text">The real question is not whether LinkedIn says it was fighting abuse of the terms of service. The question is whether users were actually informed, in any clear and meaningful way, that LinkedIn would secretly probe their browsers for over 6,000 extensions.</p>
+                <p class="quote-source">— J.R. Howell, attorney for plaintiff Jeff Ganan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://arstechnica.com/tech-policy/2026/04/linkedin-scanning-users-browser-extensions-sparks-controversy-and-two-lawsuits/">Ars Technica</a>
+                <a href="https://thenextweb.com/news/linkedin-browsergate-extension-scanning-privacy-fingerprint">The Next Web</a>
+                <a href="https://www.scworld.com/brief/linkedin-accused-of-covert-browser-extension-scanning-in-browsergate-report">SC Media</a>
+                <a href="https://www.reddit.com/r/cybersecurity/comments/1scsguv/linkedin_is_spying_on_you_according_to_a_new/">r/cybersecurity</a>
+            </div>
+            <p>BrowserGate Report — Compiled April 23, 2026</p>
+            <p style="margin-top: 8px;">Data sourced from court filings, security research, and independent verification</p>
+        </div>
+    </footer>
+
+</body>
+</html>
